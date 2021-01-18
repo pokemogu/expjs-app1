@@ -1,56 +1,64 @@
 <html lang="ja">
-  <head>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <title>ユーザー登録</title>
-  </head>
-  <body>
-    <ul class="nav justify-content-end nav-pills">
-      <li class="nav-item"><a class="nav-link" href="/login">ログイン</a></li>
-      <li class="nav-item"><a class="nav-link active" href="/register">ユーザー登録</a></li>
-    </ul>
-    <div class="card"><div class="card-header">ユーザー登録</div><div class="card-body">
-    <% if(typeof status !== 'undefined'){ %>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <title>ユーザー登録</title>
+</head>
+
+<body>
+  <ul class="nav justify-content-end nav-pills">
+    <li class="nav-item"><a class="nav-link" href="/login">ログイン</a></li>
+    <li class="nav-item"><a class="nav-link active" href="/register">ユーザー登録</a></li>
+  </ul>
+  <div class="card">
+    <div class="card-header">ユーザー登録</div>
+    <div class="card-body">
+      <% if(typeof status !=='undefined' ){ %>
         <div class="alert alert-danger" role="alert">
-            <% if(status === 'password_unmatch'){ %>
-                パスワードとパスワード(確認)が一致していません。
+          <% if(status==='password_unmatch' ){ %>
+            パスワードとパスワード(確認)が一致していません。
             <% } %>
-            <% if(status === 'password_tooshort'){ %>
+              <% if(status==='password_tooshort' ){ %>
                 パスワードは8文字以上である必要があります。
-            <% } %>
+                <% } %>
         </div>
-    <% } %>
-    <form method="POST" action="/register">
-        <div class="form-group row">
-            <label for="realname_input" class="col-sm-2 col-form-label">お名前</label>
-            <div class="col-sm-10">
-              <input type="text" name="realname" id="realname_input" placeholder="お名前"></input>
+        <% } %>
+          <form method="POST" action="/register">
+            <div class="form-group row">
+              <label for="realname_input" class="col-sm-2 col-form-label">お名前</label>
+              <div class="col-sm-10">
+                <input type="text" name="realname" id="realname_input" placeholder="お名前"></input>
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-        <label for="username_input" class="col-sm-2 col-form-label">メールアドレス</label>
-        <div class="col-sm-10">
-          <input type="email" name="username" id="username_input" placeholder="メールアドレス"></input>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="password_input" class="col-sm-2 col-form-label">パスワード</label>
-        <div class="col-sm-10">
-          <input type="password" name="password" id="password_input"  placeholder="パスワード"></input>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="password_confirm_input" class="col-sm-2 col-form-label">パスワード(確認)</label>
-        <div class="col-sm-10">
-          <input type="password" name="password_confirm" id="password_confirm_input"  placeholder="パスワード(確認)"></input>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm-10">
-          <input class="btn btn-primary" type="submit" value="登録"></input>
-        </div>
-      </div>
-    </form>
-    </div></div>
-  </body>
+            <div class="form-group row">
+              <label for="username_input" class="col-sm-2 col-form-label">メールアドレス</label>
+              <div class="col-sm-10">
+                <input type="email" name="username" id="username_input" placeholder="メールアドレス"></input>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="password_input" class="col-sm-2 col-form-label">パスワード</label>
+              <div class="col-sm-10">
+                <input type="password" name="password" id="password_input" placeholder="パスワード"></input>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="password_confirm_input" class="col-sm-2 col-form-label">パスワード(確認)</label>
+              <div class="col-sm-10">
+                <input type="password" name="password_confirm" id="password_confirm_input"
+                  placeholder="パスワード(確認)"></input>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <input class="btn btn-primary" type="submit" value="登録"></input>
+              </div>
+            </div>
+          </form>
+    </div>
+  </div>
+</body>
+
 </html>

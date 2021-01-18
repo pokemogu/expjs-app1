@@ -13,11 +13,11 @@ const express = require('express');
 const app = express();
 const cookie_parser = require('cookie-parser');
 app.use(cookie_parser());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // アプリケーション設定
 const port = process.env.PORT || 3000;
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 app.locals.sessionids = [];
 
 // *****************************************
@@ -25,43 +25,43 @@ app.locals.sessionids = [];
 // *****************************************
 
 // ログイン
-app.get('/login',controller_login.login_form);
+app.get('/login', controller_login.loginForm);
 app.post('/login',
-  middleware_auth.do_authorize,
-  function(req,res){res.redirect('/dashboard');}
+  middleware_auth.doAuthorize,
+  controller_dashboard.dashboardRedirect
 );
 
 // ユーザー登録
-app.get('/register',controller_register.register_form);
+app.get('/register', controller_register.registerForm);
 app.post('/register',
-  controller_register.do_register,
-  middleware_auth.do_authorize,
-  function(req,res){res.redirect('/dashboard');}
+  controller_register.doRegister,
+  middleware_auth.doAuthorize,
+  controller_dashboard.dashboardRedirect
 );
 
 // ログアウト
 app.get('/logout',
-  middleware_auth.do_deauthorize,
-  function(req,res){res.redirect('/login');}
+  middleware_auth.doDeauthorize,
+  controller_login.loginRedirect
 );
 app.post('/logout',
-  middleware_auth.do_deauthorize,
-  function(req,res){res.redirect('/login');}
+  middleware_auth.doDeauthorize,
+  controller_login.loginRedirect
 );
 
 // ダッシュボード
-app.use('/dashboard',middleware_auth.check_authorized);
-app.get('/dashboard',controller_dashboard.dashboard_form);
+app.use('/dashboard', middleware_auth.checkAuthorized);
+app.get('/dashboard', controller_dashboard.dashboardForm);
 
 // ルート
 app.get('/',
-  middleware_auth.check_authorized,
-  function(req,res){res.redirect('/dashboard');}
+  middleware_auth.checkAuthorized,
+  controller_dashboard.dashboardRedirect
 );
 
 // *****************************************
 // サーバー開始
 // *****************************************
-app.listen(port,() => {
+app.listen(port, () => {
   console.log('Server started');
 });

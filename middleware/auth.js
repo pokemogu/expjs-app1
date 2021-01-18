@@ -1,8 +1,8 @@
 // ログインセッションが存在しているか確認する
-function is_authorized(cookies,sessionids){
-    if(cookies.username && cookies.sessionid){
-        if(sessionids[cookies.username]){
-            if(sessionids[cookies.username] == cookies.sessionid){
+function isAuthorized(cookies, sessionids) {
+    if (cookies.username && cookies.sessionid) {
+        if (sessionids[cookies.username]) {
+            if (sessionids[cookies.username] === cookies.sessionid) {
                 return true;
             }
         }
@@ -11,8 +11,8 @@ function is_authorized(cookies,sessionids){
 }
 
 // ログインセッションが存在していない場合はホーム画面に遷移させない
-module.exports.check_authorized = function(req,res,next){
-    if(is_authorized(req.cookies,req.app.locals.sessionids)){
+module.exports.checkAuthorized = function (req, res, next) {
+    if (isAuthorized(req.cookies, req.app.locals.sessionids)) {
         next();
         return;
     }
@@ -20,17 +20,15 @@ module.exports.check_authorized = function(req,res,next){
 }
 
 // ログインセッションを作成する
-module.exports.do_authorize = function(req,res,next){
-    if(req.body.username && req.body.password){
+module.exports.doAuthorize = function (req, res, next) {
+    if (req.body.username && req.body.password) {
         const uuid = require('uuid');
-        let username = req.body.username;
-        let sessionid = uuid.v4(); // ランダムなセッションIDを生成する
+        const username = req.body.username;
+        const sessionid = uuid.v4(); // ランダムなセッションIDを生成する
 
-        res.cookie('username',username);
-        res.cookie('sessionid',sessionid);
+        res.cookie('username', username);
+        res.cookie('sessionid', sessionid);
         req.app.locals.sessionids[username] = sessionid;
-
-        console.log('Authorized: username = ' + username + ', sessionid = ' + sessionid);
 
         next();
         return;
@@ -39,16 +37,14 @@ module.exports.do_authorize = function(req,res,next){
 }
 
 // ログインセッションを破棄する
-module.exports.do_deauthorize = function(req,res,next){
-    if(is_authorized(req.cookies,req.app.locals.sessionids)){
-        let username = req.cookies.username;
-        let sessionid = req.app.locals.sessionids[req.cookies.username];
+module.exports.doDeauthorize = function (req, res, next) {
+    if (isAuthorized(req.cookies, req.app.locals.sessionids)) {
+        const username = req.cookies.username;
+        const sessionid = req.app.locals.sessionids[req.cookies.username];
 
         delete req.app.locals.sessionids[username];
         res.clearCookie('username');
         res.clearCookie('sessionid');
-
-        console.log('Deauthorized: username = ' + username + ', sessionid = ' + sessionid);
     }
     next();
 }

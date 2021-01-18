@@ -1,3 +1,7 @@
-module.exports.dashboard_form = function(req,res){
+module.exports.dashboardForm = function (req, res) {
     res.render('dashboard');
+}
+
+module.exports.dashboardRedirect = function (req, res) {
+    res.redirect('/dashboard');
 }
