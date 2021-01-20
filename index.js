@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.locals.sessionids = [];
+app.locals.maximum_password_length = 7;
 
 // *****************************************
 // ルーティング

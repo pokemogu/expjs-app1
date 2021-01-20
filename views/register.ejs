@@ -21,8 +21,20 @@
             パスワードとパスワード(確認)が一致していません。
             <% } %>
               <% if(status==='password_tooshort' ){ %>
-                パスワードは8文字以上である必要があります。
+                パスワードは7文字以上である必要があります。
                 <% } %>
+                  <% if(status==='realname_unfilled' ){ %>
+                    お名前が記入されていません。
+                    <% } %>
+                      <% if(status==='username_unfilled' ){ %>
+                        メールアドレスが記入されていません。
+                        <% } %>
+                          <% if(status==='password_unfilled' ){ %>
+                            パスワードが記入されていません。
+                            <% } %>
+                              <% if(status==='password_confirm_unfilled' ){ %>
+                                パスワード(確認)が記入されていません。
+                                <% } %>
         </div>
         <% } %>
           <form method="POST" action="/register">
