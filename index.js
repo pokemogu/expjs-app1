@@ -14,6 +14,7 @@ const app = express();
 const cookie_parser = require('cookie-parser');
 app.use(cookie_parser());
 app.use(express.urlencoded({ extended: true }));
+const { body, validationResult } = require('express-validator');
 
 // アプリケーション設定
 const port = process.env.PORT || 3000;
@@ -35,6 +36,23 @@ app.post('/login',
 // ユーザー登録
 app.get('/register', controller_register.registerForm);
 app.post('/register',
+  body('realname')
+    .notEmpty().withMessage('realname_unfilled').bail(),
+  body('username')
+    .notEmpty().withMessage('username_unfilled').bail()
+    .isEmail().withMessage('username_not_email').bail(),
+  body('password')
+    .notEmpty().withMessage('password_unfilled').bail()
+    .isLength({ min: 7 }).withMessage('password_tooshort').bail(),
+  body('password_confirm')
+    .custom((value, { req }) => value === req.body.password).withMessage('password_unmatch').bail(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.redirect('/register?status=' + errors.array()[0].msg);
+    }
+    next();
+  },
   controller_register.doRegister,
   middleware_auth.doAuthorize,
   controller_dashboard.dashboardRedirect
